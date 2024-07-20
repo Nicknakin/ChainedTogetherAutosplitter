@@ -3,10 +3,6 @@ use super::state::State;
 
 use super::Square;
 
-trait Split {
-    fn should_split(&self, state: &State) -> bool;
-}
-
 pub struct SphereTrigger {
     position_x: f64,
     position_y: f64,
@@ -21,18 +17,18 @@ impl SphereTrigger {
         position_z: f64,
         radius_squared: f64,
     ) -> SphereTrigger {
-        return SphereTrigger {
+        SphereTrigger {
             position_x,
             position_y,
             position_z,
             radius_squared,
-        };
+        }
     }
     pub fn should_split(&self, state: &State) -> bool {
         let dist_squared = (self.position_x - state.position_x).square()
             + (self.position_y - state.position_y).square()
             + (self.position_z - state.position_z).square();
-        return dist_squared <= self.radius_squared;
+        dist_squared <= self.radius_squared
     }
 }
 
@@ -50,18 +46,18 @@ impl UpperSphereTrigger {
         position_z: f64,
         radius_squared: f64,
     ) -> UpperSphereTrigger {
-        return UpperSphereTrigger {
+        UpperSphereTrigger {
             position_x,
             position_y,
             position_z,
             radius_squared,
-        };
+        }
     }
     pub fn should_split(&self, state: &State) -> bool {
         let dist_squared = (self.position_x - state.position_x).square()
             + (self.position_y - state.position_y).square()
             + (self.position_z - state.position_z).square();
-        return dist_squared <= self.radius_squared && self.position_z <= state.position_z;
+        dist_squared <= self.radius_squared && self.position_z <= state.position_z
     }
 }
 
@@ -79,19 +75,19 @@ impl BoxTrigger {
         position_y_1: f64,
         position_y_2: f64,
     ) -> BoxTrigger {
-        return BoxTrigger {
+        BoxTrigger {
             position_x_1,
             position_x_2,
             position_y_1,
             position_y_2,
-        };
+        }
     }
 
     pub fn should_split(&self, state: &State) -> bool {
-        return state.position_x >= self.position_x_1
+        state.position_x >= self.position_x_1
             && state.position_x <= self.position_x_2
             && state.position_y >= self.position_y_1
-            && state.position_y <= self.position_y_2;
+            && state.position_y <= self.position_y_2
     }
 }
 
@@ -101,10 +97,10 @@ pub struct HeightTrigger {
 
 impl HeightTrigger {
     pub fn new(position_z: f64) -> HeightTrigger {
-        return HeightTrigger { position_z };
+        HeightTrigger { position_z }
     }
     pub fn should_split(&self, state: &State) -> bool {
-        return state.position_z >= self.position_z;
+        state.position_z >= self.position_z
     }
 }
 
@@ -150,7 +146,7 @@ pub enum Triggers {
 
 impl Triggers {
     pub fn should_split(&self, state: &State) -> bool {
-        let trigger = match *self {
+        match *self {
             Triggers::Underworld => {
                 SphereTrigger::new(48169.70f64, -6670.38f64, 10415.32f64, 1600f64 * 1600f64)
                     .should_split(state)
@@ -274,8 +270,7 @@ impl Triggers {
                 SphereTrigger::new(89000f64, -4500f64, 373000f64, 8500f64 * 8500f64)
                     .should_split(state)
             }
-        };
-        return trigger;
+        }
     }
     pub fn next_trigger_raw(&self) -> Triggers {
         match self {
