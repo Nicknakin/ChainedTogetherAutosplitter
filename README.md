@@ -19,7 +19,7 @@ cargo b --release
 
 The auto splitter is then available at:
 ```
-target/wasm32-unknown-unknown/release/chained-together-autosplitter.wasm
+target/wasm32-unknown-unknown/release/chained_together_autosplitter.wasm
 ```
 
 Make sure too look into the [API documentation](https://livesplit.org/asr/asr/) for the `asr` crate.
